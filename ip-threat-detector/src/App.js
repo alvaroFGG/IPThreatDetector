@@ -11,6 +11,10 @@ function App() {
     <div className="App">
         <h1>IP Geolocation and Threat Detection</h1>
         <Form/>
+        <footer>
+          Developer: 
+          <a href='https://github.com/alvaroFGG'> Álvaro Fuentenebro</a>
+        </footer>
     </div>
   );
 }

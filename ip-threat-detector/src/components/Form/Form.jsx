@@ -1,4 +1,5 @@
 import React from 'react'
+import { useState } from 'react';
 
 const Form = () => {
 
@@ -10,7 +11,7 @@ const Form = () => {
             'X-RapidAPI-Host': 'ip-geolocation-and-threat-detection.p.rapidapi.com'
         }
     };
-    let fetchedResults = '';
+    const [fetchedResults, setResults] = useState();
     
     const fetchAPI = (ip) => {
         const urlWithIp = URL+ip;
@@ -18,8 +19,7 @@ const Form = () => {
         fetch(urlWithIp, OPTIONS)
             .then(response => response.json())
             .then(response =>  {
-                document.getElementById('results__container').style = 'visibility: visible'
-                document.getElementById('results').innerHTML = JSON.stringify(response, null, ' ');
+                setResults(response);
             })
             .catch(err => console.error(err));
         
@@ -30,7 +30,7 @@ const Form = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         const value = e.target.ip.value;
-        // if(value == null) return;
+        if(value === '') return;
         fetchAPI(value);
     }
 
@@ -40,14 +40,14 @@ const Form = () => {
 
         <form onSubmit={handleSubmit}>
             <label>
-                User Ip
-                <input placeholder='Write an ip' name='ip'  ></input>
+                User IP
+                <input placeholder='For example: 54.85.132.205' name='ip' required ></input>
             </label>
 
             <button type='submit'>Search for this IP</button>
         </form>
 
-        <div id='results__container' style={{visibility: "hidden"}}>
+        <div id='results__container'>
             <pre id='results'>
                 {JSON.stringify(fetchedResults, null, ' ')}
             </pre>
